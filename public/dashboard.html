@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 25%;
+      background-color: #003153;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .sidebar .item {
+      margin: 10px 0;
+      padding: 10px 20px;
+      background-color: #00509E;
+      border-radius: 5px;
+      text-align: center;
+      width: 100%;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .sidebar .item:hover {
+      background-color: #002244;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      background-color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-content h1 {
+      color: #333;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #f5f5f5;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .header .user-options {
+      display: flex;
+      gap: 15px;
+    }
+
+    .header .user-options button {
+      background: #007BFF;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .header .user-options button:hover {
+      background: #0056b3;
+    }
+
+    .content {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="item" onclick="loadPage('available-cars')">Cars Available</div>
+    <div class="item" onclick="loadPage('buy-car')">Booking Car for Buy</div>
+    <div class="item" onclick="loadPage('sell-car')">Car for Sell</div>
+    <div class="item" onclick="loadPage('booking-sell')">Booking Car for Sell</div>
+    <div class="item" onclick="loadPage('payment')">Payment Process</div>
+    <div class="item" onclick="loadPage('sell-records')">Car Sell Record</div>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h2 id="username">Welcome</h2>
+      <div class="user-options">
+        <button onclick="showUserInfo()">About User</button>
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="content" id="content">
+      <h1>Welcome to the Dashboard</h1>
+      <p>Select an option from the sidebar.</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        window.location.href = "login.html"; // Redirect if not logged in
+      }
+      loadUserInfo();
+    });
+
+    function logout() {
+      localStorage.removeItem("token");
+      window.location.href = "login.html";
+    }
+
+    function loadUserInfo() {
+      const email = localStorage.getItem("userEmail");
+      document.getElementById("username").textContent = email ? `Welcome, ${email}` : "Welcome";
+    }
+
+    function showUserInfo() {
+      alert(`User Email: ${localStorage.getItem("userEmail") || "Unknown"}`);
+    }
+
+    function loadPage(page) {
+      document.getElementById("content").innerHTML = `<h1>Loading ${page.replace("-", " ")}...</h1>`;
+      // You can fetch and display actual content here dynamically
+    }
+  </script>
+
+</body>
+</html>
